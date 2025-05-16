@@ -1,0 +1,2 @@
+# django-advance
+another project
