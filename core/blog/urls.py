@@ -9,4 +9,5 @@ urlpatterns=[
     path('go-to-maktabkhooneh2',redirect_view,name='redirect-to-maktabkhooneh2'),
     path('go-to-maktabkhooneh/<int:pk>/',Redirectview.as_view(),name='redirect-to-maktabkhooneh'),
     path('post/',PostList.as_view(),name='post-list'),
+    path('post/<int:pk>/',PostDetail.as_view(),name='post-detail'),
 ]

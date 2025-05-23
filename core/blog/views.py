@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic.base import TemplateView,RedirectView
 from django.views.generic import ListView
+from django.views.generic.detail import DetailView
 from .models import Post
 
 def index_view(request):
@@ -43,3 +44,6 @@ class PostList(ListView):
         posts=Post.objects.filter(status=True)
         return posts
     '''
+
+class PostDetail(DetailView):
+    model=Post
