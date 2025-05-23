@@ -1,9 +1,11 @@
 from django.db import models
-from accounts.models import User
+from django.contrib.auth import get_user_model
+
+User=get_user_model()
 
 class Post(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE)
-    image=models.ImageField(null=True,blank=True)
+    image=models.ImageField(upload_to='blog/',null=True,blank=True)
     title=models.CharField(max_length=255)
     content=models.TextField()
     status=models.BooleanField(default=False)
