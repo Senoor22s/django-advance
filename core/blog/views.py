@@ -35,9 +35,8 @@ class Redirectview(RedirectView):
         print(post)
         return super().get_redirect_url(*args, **kwargs)
     
-class PostList(PermissionRequiredMixin,LoginRequiredMixin,ListView):
+class PostList(ListView):
     #model=Post
-    permission_required='blog.view_post'
     context_object_name='posts'
     queryset=Post.objects.all()
     ordering='-id'
@@ -48,8 +47,9 @@ class PostList(PermissionRequiredMixin,LoginRequiredMixin,ListView):
         return posts
     '''
 
-class PostDetail(LoginRequiredMixin,DetailView):
+class PostDetail(PermissionRequiredMixin,LoginRequiredMixin,DetailView):
     model=Post
+    permission_required ='blog.view_post'
 
 class PostCreate(FormView):
     template_name='contact.html'
@@ -61,20 +61,23 @@ class PostCreate(FormView):
         form.save()
         return super().form_valid(form)
 
-class PostCreateView(LoginRequiredMixin,CreateView):
+class PostCreateView(PermissionRequiredMixin,LoginRequiredMixin,CreateView):
     form_class=PostForm
     success_url='/blog/post/'
     model=Post
+    permission_required ='blog.add_post'
 
     def form_valid(self,form):
         form.instance.author=self.request.user
         return super().form_valid(form)
 
-class PostEdit(LoginRequiredMixin,UpdateView):
+class PostEdit(PermissionRequiredMixin,LoginRequiredMixin,UpdateView):
     model=Post
     form_class=PostForm
     success_url='/blog/post/'
+    permission_required = 'blog.change_post'
 
-class PostDelete(LoginRequiredMixin,DeleteView):
+class PostDelete(PermissionRequiredMixin,LoginRequiredMixin,DeleteView):
     model=Post
     success_url='/blog/post/'
+    permission_required='blog.delete_post'

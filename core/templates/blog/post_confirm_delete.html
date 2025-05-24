@@ -9,6 +9,7 @@
     <form method="post">
         {% csrf_token %}
         <p>Are you sure want to delete "{{object}}"?</p>
+        <a href="{% url 'blog:post-list' %}"><h5>Cancel</h5></a>
         <input type="submit" value="Confirm">
     </form>
 </body>
