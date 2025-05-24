@@ -1,8 +1,10 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.generic.base import TemplateView,RedirectView
-from django.views.generic import ListView
+from django.views.generic import ListView,FormView,CreateView,UpdateView,DeleteView
 from django.views.generic.detail import DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .models import Post
+from .forms import PostForm
 
 def index_view(request):
     name='ali'
@@ -33,8 +35,9 @@ class Redirectview(RedirectView):
         print(post)
         return super().get_redirect_url(*args, **kwargs)
     
-class PostList(ListView):
+class PostList(PermissionRequiredMixin,LoginRequiredMixin,ListView):
     #model=Post
+    permission_required='blog.view_post'
     context_object_name='posts'
     queryset=Post.objects.all()
     ordering='-id'
@@ -45,5 +48,33 @@ class PostList(ListView):
         return posts
     '''
 
-class PostDetail(DetailView):
+class PostDetail(LoginRequiredMixin,DetailView):
     model=Post
+
+class PostCreate(FormView):
+    template_name='contact.html'
+    form_class=PostForm
+    success_url='/blog/post/'
+
+    def form_valid(self, form):
+        form.instance.author=self.request.user
+        form.save()
+        return super().form_valid(form)
+
+class PostCreateView(LoginRequiredMixin,CreateView):
+    form_class=PostForm
+    success_url='/blog/post/'
+    model=Post
+
+    def form_valid(self,form):
+        form.instance.author=self.request.user
+        return super().form_valid(form)
+
+class PostEdit(LoginRequiredMixin,UpdateView):
+    model=Post
+    form_class=PostForm
+    success_url='/blog/post/'
+
+class PostDelete(LoginRequiredMixin,DeleteView):
+    model=Post
+    success_url='/blog/post/'

@@ -10,6 +10,8 @@
     {% for post in posts %}
     <div>
         <a href="{% url 'blog:post-detail' pk=post.id %}"><h2>{{post.title}}</h2></a>
+        <a href="{% url 'blog:post-edit' pk=post.id %}"><h5>Edit</h5></a>
+        <a href="{% url 'blog:post-delete' pk=post.id %}"><h5>Delete</h5></a>
         <p>{{post.content}}</p>
     </div>
     {% endfor %}
@@ -28,5 +30,6 @@
             {% endif %}
         </span>
     </div>
+    <a href="{% url 'blog:post-create2' %}"><h5>Create New Post</h5></a>
 </body>
 </html>
