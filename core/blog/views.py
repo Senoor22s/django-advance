@@ -5,10 +5,9 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .models import Post
 from .forms import PostForm
-from .forms import CustomUserCreationForm
-from django.views import generic
+from accounts.forms import CustomUserCreationForm
 
-class SignUpView(generic.CreateView):
+class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = '/accounts/login/'
     template_name = 'registration/signup.html'
@@ -100,3 +99,4 @@ class PostDelete(PermissionRequiredMixin,LoginRequiredMixin,DeleteView):
     def get_queryset(self):
         posts=Post.objects.filter(author=self.request.user.profile)
         return posts
+
