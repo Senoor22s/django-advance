@@ -7,31 +7,26 @@ from rest_framework.views import APIView
 from rest_framework import viewsets
 from .serializers import PostSerializer,CategorySerializer
 from ...models import Post,Category
+from .permissions import IsAuthorOrReadOnly
 from django.shortcuts import get_object_or_404,redirect
-
-class PostList(ListCreateAPIView):
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    serializer_class=PostSerializer
-    queryset=Post.objects.filter(status=True)
-
-class PostDetail(RetrieveUpdateDestroyAPIView):
-    permission_classes=[IsAuthenticatedOrReadOnly]
-    serializer_class=PostSerializer
-    queryset=Post.objects.filter(status=True)
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter,OrderingFilter
+from .paginations import DefaultPagination
+from .filters import PostFilter
 
 class PostViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     serializer_class=PostSerializer
     queryset=Post.objects.filter(status=True)
-
-    @action(methods=['get'],detail=False)
-    def get_ok(self,request):
-        return Response({'detail':'ok'})
-
-
+    filter_backends=[DjangoFilterBackend,SearchFilter,OrderingFilter]
+    filterset_fields=['category','author']
+    search_fields=['title','content']
+    filterset_class = PostFilter
+    ordering_fields=['created_date']
+    pagination_class=DefaultPagination
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly]
+    permission_classes=[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
     serializer_class=CategorySerializer
     queryset=Category.objects.all()
 
