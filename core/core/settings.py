@@ -135,3 +135,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL='accounts.User'
 
 LOGIN_REDIRECT_URL = '/blog/post/'
+
+REST_FRAMEWORK={'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.coreapi.AutoSchema'}

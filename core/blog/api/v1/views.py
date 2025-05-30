@@ -1,4 +1,4 @@
-from rest_framework.decorators import api_view,permission_classes
+from rest_framework.decorators import api_view,permission_classes,action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework import status,mixins
@@ -23,6 +23,12 @@ class PostViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticatedOrReadOnly]
     serializer_class=PostSerializer
     queryset=Post.objects.filter(status=True)
+
+    @action(methods=['get'],detail=False)
+    def get_ok(self,request):
+        return Response({'detail':'ok'})
+
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticatedOrReadOnly]

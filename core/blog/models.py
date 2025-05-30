@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.urls import reverse
 
 class Post(models.Model):
     author=models.ForeignKey('accounts.Profile',on_delete=models.CASCADE)
@@ -14,9 +15,19 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
+    
+    def get_snippet(self):
+        if len(self.content) > 6:
+            return self.content[:6] + '...'
+        else:
+            return self.content[:6]
+        
+    def get_absolute_api_url(self):
+        return reverse('blog:api-v1:post-detail', kwargs={'pk':self.id})
+    
 class Category(models.Model):
     name=models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
+    
