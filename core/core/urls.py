@@ -18,17 +18,35 @@ from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
-from blog.views import SignUpView,index_view
+from blog.views import index_view
 from rest_framework.documentation import include_docs_urls
+from rest_framework.permissions import AllowAny
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+
+schema_view=get_schema_view(
+    openapi.Info(
+        title="Snippets API",
+        default_version="v1",
+        description="Test description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@snippets.local"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=[AllowAny]
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/',include('blog.urls')),
-    path('accounts/',include('django.contrib.auth.urls')),
-    path('api-auth/',include('rest_framework.urls')),
-    path('accounts/signup/', SignUpView.as_view(), name='signup'),
     path('',index_view,name='index'),
+    path('blog/',include('blog.urls')),
+    path('accounts/',include('accounts.urls')),
+    path('api-auth/',include('rest_framework.urls')),
     path('api-docs/',include_docs_urls(title='api sample')),
+    path('swagger/',schema_view.with_ui('swagger'),name='schema-swagger-ui'),
+    path('redoc/',schema_view.with_ui('redoc'),name="schema-redoc"),
+    path('swagger/api.json',schema_view.without_ui(),name='schema-json'),
 ]
 
 if settings.DEBUG:

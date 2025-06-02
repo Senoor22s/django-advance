@@ -5,12 +5,6 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin,PermissionRequiredMixin
 from .models import Post
 from .forms import PostForm
-from accounts.forms import CustomUserCreationForm
-
-class SignUpView(CreateView):
-    form_class = CustomUserCreationForm
-    success_url = '/accounts/login/'
-    template_name = 'registration/signup.html'
 
 def index_view(request):
     return render(request,'index.html')
