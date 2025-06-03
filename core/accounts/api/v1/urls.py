@@ -5,4 +5,6 @@ app_name="api-v1"
 
 urlpatterns=[
     path('registration/',RegistrationAPIView.as_view(),name="registration"),
+    path('token/login/', CustomObtainAuthToken.as_view(),name='token-login'),
+    path('token/logout',CustomDiscardAuthToken.as_view(),name='token-logout'),
 ]
