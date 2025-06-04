@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'blog',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
 ]
@@ -143,4 +144,5 @@ REST_FRAMEWORK={'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.coreapi.AutoSchem
     'rest_framework.authentication.BasicAuthentication',
     'rest_framework.authentication.SessionAuthentication',
     'rest_framework.authentication.TokenAuthentication',
+    'rest_framework_simplejwt.authentication.JWTAuthentication',
 ]}
