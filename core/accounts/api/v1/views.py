@@ -40,6 +40,8 @@ class CustomDiscardAuthToken(APIView):
     permission_classes=[IsAuthenticated]
 
     def post(self,request):
+        if not self.request.user.is_verified:
+            return Response({'detail':'user is not verified'})
         request.user.auth_token.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
