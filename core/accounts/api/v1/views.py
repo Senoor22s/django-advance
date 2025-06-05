@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from ...models import Profile
+from django.core.mail import send_mail
 
 User=get_user_model()
 
@@ -75,3 +76,8 @@ class ProfileAPIView(RetrieveUpdateAPIView):
         queryset=self.get_queryset()
         obj=get_object_or_404(queryset,user=self.request.user)
         return obj
+
+class TestEmailSend(GenericAPIView):
+    def get(self,request,*args,**kwargs):
+        send_mail('subject','message','from@example.com',['to@example.com'],fail_silently=False)
+        return Response({'email sent'})
