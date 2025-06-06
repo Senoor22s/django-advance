@@ -11,7 +11,8 @@ from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from ...models import Profile
-from django.core.mail import send_mail
+from mail_templated import send_mail,EmailMessage
+from ..utils import EmailTread
 
 User=get_user_model()
 
@@ -79,5 +80,7 @@ class ProfileAPIView(RetrieveUpdateAPIView):
 
 class TestEmailSend(GenericAPIView):
     def get(self,request,*args,**kwargs):
-        send_mail('subject','message','from@example.com',['to@example.com'],fail_silently=False)
+        email_obj=EmailMessage('email/hello.tpl',{'name':'ali'},'test@test.com',['legendsdt4@gmail.com'])
+        EmailTread(email_obj).start()
         return Response({'email sent'})
+    
