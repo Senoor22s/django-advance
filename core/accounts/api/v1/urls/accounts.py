@@ -11,4 +11,6 @@ urlpatterns=[
     path('jwt/verify/',TokenVerifyView.as_view(),name='jwt-verify'),
     path('change-password',ChangePasswordAPIView.as_view(),name='change-password'),
     path('test-email',TestEmailSend.as_view(),name='test-email'),
+    path('activation/confirm/<str:token>',ActivationAPIView.as_view(),name='activation'),
+    path('activation/resend',ActivationResendAPIView.as_view(),name='activation'),
 ]
