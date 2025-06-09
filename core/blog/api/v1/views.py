@@ -1,36 +1,43 @@
-from rest_framework.decorators import api_view,permission_classes,action
-from rest_framework.response import Response
+# from rest_framework.decorators import api_view, permission_classes, action
+# from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework import status,mixins
-from rest_framework.generics import GenericAPIView,ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from rest_framework.views import APIView
+# from rest_framework import status, mixins
+'''from rest_framework.generics import (
+    GenericAPIView,
+    ListCreateAPIView,
+    RetrieveUpdateDestroyAPIView,
+)'''
+# from rest_framework.views import APIView
 from rest_framework import viewsets
-from .serializers import PostSerializer,CategorySerializer
-from ...models import Post,Category
+from .serializers import PostSerializer, CategorySerializer
+from ...models import Post, Category
 from .permissions import IsAuthorOrReadOnly
-from django.shortcuts import get_object_or_404,redirect
+# from django.shortcuts import get_object_or_404, redirect
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.filters import SearchFilter,OrderingFilter
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .paginations import DefaultPagination
 from .filters import PostFilter
 
+
 class PostViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-    serializer_class=PostSerializer
-    queryset=Post.objects.filter(status=True)
-    filter_backends=[DjangoFilterBackend,SearchFilter,OrderingFilter]
-    filterset_fields=['category','author']
-    search_fields=['title','content']
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(status=True)
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_fields = ["category", "author"]
+    search_fields = ["title", "content"]
     filterset_class = PostFilter
-    ordering_fields=['created_date']
-    pagination_class=DefaultPagination
+    ordering_fields = ["created_date"]
+    pagination_class = DefaultPagination
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
-    permission_classes=[IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-    serializer_class=CategorySerializer
-    queryset=Category.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly, IsAuthorOrReadOnly]
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
 
-'''
+
+"""
 @api_view(["GET","POST"])
 @permission_classes([IsAuthenticatedOrReadOnly])
 def post_list(request):
@@ -115,5 +122,4 @@ class PostDetail(GenericAPIView,mixins.RetrieveModelMixin,mixins.UpdateModelMixi
         return self.update(request,*args,**kwargs)
     def delete(self,request,*args,**kwargs):
         return self.destroy(request,*args,**kwargs)
-    
-'''
+"""
