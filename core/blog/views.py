@@ -46,9 +46,8 @@ class PostList(LoginRequiredMixin, ListView):
         return posts
 
 
-class PostDetail(PermissionRequiredMixin, LoginRequiredMixin, DetailView):
+class PostDetail(LoginRequiredMixin, DetailView):
     model = Post
-    permission_required = "blog.view_post"
 
     def get_queryset(self):
         posts = Post.objects.filter(author=self.request.user.profile)
@@ -70,11 +69,10 @@ class PostCreate(FormView):
         return posts
 
 
-class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     form_class = PostForm
     success_url = "/blog/post/"
     model = Post
-    permission_required = "blog.add_post"
 
     def form_valid(self, form):
         form.instance.author = self.request.user.profile
@@ -85,21 +83,19 @@ class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
         return posts
 
 
-class PostEdit(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+class PostEdit(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
     success_url = "/blog/post/"
-    permission_required = "blog.change_post"
 
     def get_queryset(self):
         posts = Post.objects.filter(author=self.request.user.profile)
         return posts
 
 
-class PostDelete(PermissionRequiredMixin, LoginRequiredMixin, DeleteView):
+class PostDelete(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = "/blog/post/"
-    permission_required = "blog.delete_post"
 
     def get_queryset(self):
         posts = Post.objects.filter(author=self.request.user.profile)

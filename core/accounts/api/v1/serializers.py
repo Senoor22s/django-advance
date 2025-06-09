@@ -24,8 +24,12 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return super().validate(attrs)
 
     def create(self, validated_data):
-        validated_data.pop("password1", None)
-        return super().create(validated_data)
+        validated_data.pop('password1', None)
+        password = validated_data.pop('password')
+        user = User(**validated_data)
+        user.set_password(password)
+        user.save()
+        return user
 
 
 class CustomAuthTokenSerializer(serializers.Serializer):
