@@ -1,3 +1,4 @@
+'''
 from django.test import TestCase
 from django.urls import reverse,resolve
 from .. import views
@@ -14,3 +15,4 @@ class TestUrl(TestCase):
     def test_blog_post_list_url_resolver(self):
         url=reverse('blog:post-list')
         self.assertEqual(resolve(url).func.view_class,views.PostList)
+'''

@@ -30,8 +30,8 @@ User = get_user_model()
 class RegistrationAPIView(GenericAPIView):
     serializer_class = RegistrationSerializer
 
-    def post(self, requset, *args, **kwargs):
-        serializer = RegistrationSerializer(data=requset.data)
+    def post(self, request, *args, **kwargs):
+        serializer = RegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         email = serializer.validated_data["email"]
