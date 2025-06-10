@@ -1,2 +1,2 @@
 # django-advance
-another project
+Full django backend with API and Testing
