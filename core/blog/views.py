@@ -7,6 +7,9 @@ from .models import Post
 from .forms import PostForm
 
 
+class PostListAPIView(TemplateView):
+    template_name='blog/post_list_api.html'
+
 def index_view(request):
     return render(request, "index.html")
 
